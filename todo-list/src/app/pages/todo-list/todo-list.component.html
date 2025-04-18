@@ -1,0 +1,42 @@
+<div class="todo-list-container">
+  <div class="header">
+    <h2>{{ isFavoriteRoute ? "Favorite TODOs" : "TODOs" }}</h2>
+    <button mat-fab color="primary" (click)="onAdd()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+  @if (isFavoriteRoute) {
+    <app-todo-grid
+      [todos]="(favoriteTodos$ | async) ?? []"
+      (onToggleComplete)="onToggleComplete($event)"
+      (onToggleFavorite)="onToggleFavorite($event)"
+      (onRemove)="onRemove($event)"
+    />
+  } @else {
+    <mat-card class="todo-section">
+      <mat-card-header>
+        <mat-card-title>Today TODO's</mat-card-title>
+      </mat-card-header>
+      <app-todo-grid
+        [todos]="(todayTodos$ | async) ?? []"
+        [showTimeLeft]="true"
+        (onToggleComplete)="onToggleComplete($event)"
+        (onToggleFavorite)="onToggleFavorite($event)"
+        (onRemove)="onRemove($event)"
+      />
+    </mat-card>
+
+    <mat-card class="todo-section">
+      <mat-card-header>
+        <mat-card-title>My Todo List</mat-card-title>
+      </mat-card-header>
+      <app-todo-grid
+        [todos]="(futureTodos$ | async) ?? []"
+        (onToggleComplete)="onToggleComplete($event)"
+        (onToggleFavorite)="onToggleFavorite($event)"
+        (onRemove)="onRemove($event)"
+      />
+    </mat-card>
+  }
+</div>

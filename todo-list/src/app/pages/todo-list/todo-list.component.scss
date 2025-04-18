@@ -1,0 +1,234 @@
+.todo-list-container {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  
+  h2 {
+    margin: 0;
+    color: rgba(0, 0, 0, 0.87);
+  }
+}
+
+.todo-section {
+  margin-bottom: 24px;
+  
+  mat-card-header {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  
+  mat-card-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+  }
+}
+
+.todo-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 8px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  mat-checkbox {
+    margin-right: 16px;
+    margin-top: 8px;
+  }
+  
+  app-todo-item {
+    flex: 1;
+  }
+}
+
+.todo-table {
+  width: 100%;
+  
+  .mat-mdc-header-cell {
+    color: rgba(0, 0, 0, 0.87);
+    font-weight: 500;
+  }
+
+  .mat-mdc-row:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+
+  .completed {
+    text-decoration: line-through;
+    color: rgba(0, 0, 0, 0.38);
+  }
+
+  .mat-column-completed {
+    width: 48px;
+    padding-right: 8px;
+  }
+
+  .mat-column-actions {
+    text-align: right;
+  }
+
+  .mat-column-title {
+    padding-left: 8px;
+    text-overflow: ellipsis;
+    max-width: 240px;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+
+.todo-grid-container {
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.todo-grid-header {
+  display: grid;
+  grid-template-columns: 48px minmax(120px, 240px) auto auto 96px;
+  gap: 16px;
+  padding: 16px;
+  background-color: #fafafa;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  font-weight: 500;
+
+  > div {
+    color: rgba(0, 0, 0, 0.87);
+  }
+}
+
+.todo-grid-row {
+  display: grid;
+  grid-template-columns: 48px minmax(120px, 240px) auto auto 96px;
+  gap: 16px;
+  padding: 8px 16px;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+}
+
+.completed {
+  text-decoration: line-through;
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.actions-cell {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+@media (max-width: 600px) {
+  .todo-list-container {
+    padding: 8px;
+  }
+  
+  .todo-item {
+    padding: 8px;
+  }
+  
+  .todo-table {
+    .mat-mdc-header-cell,
+    .mat-mdc-cell {
+      padding: 8px;
+    }
+
+    .mat-mdc-header-row {
+      display: none;
+    }
+
+    .mat-mdc-row {
+      display: flex;
+      flex-direction: column;
+      padding: 8px 16px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    .mat-mdc-cell {
+      display: flex;
+      padding: 8px 0;
+      border: none;
+
+      &:before {
+        content: attr(data-label);
+        font-weight: 500;
+        padding-right: 16px;
+        min-width: 30%;
+      }
+
+      &.mat-column-completed:before {
+        content: "Status";
+      }
+
+      &.mat-column-actions {
+        justify-content: flex-end;
+      }
+    }
+  }
+
+  .todo-grid-header {
+    display: none;
+  }
+
+  .todo-grid-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 16px;
+    position: relative;
+
+    .completed-cell {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+    }
+
+    .title-cell {
+      padding-left: 40px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      max-width: 240px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .created-cell,
+    .expiration-cell {
+      padding-left: 40px;
+      font-size: 14px;
+      color: rgba(0, 0, 0, 0.6);
+      
+      &:before {
+        content: attr(data-label);
+        font-weight: 500;
+        margin-right: 8px;
+      }
+    }
+
+    .actions-cell {
+      padding-left: 40px;
+      justify-content: flex-start;
+    }
+  }
+}

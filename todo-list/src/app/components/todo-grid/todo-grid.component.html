@@ -1,0 +1,46 @@
+<div class="todo-grid-container mat-elevation-z2">
+  <div class="todo-grid-header">
+    <div class="completed-header"></div>
+    <div class="title-header">Title</div>
+    <div class="created-header">Created At</div>
+    <div class="expiration-header">Expiration</div>
+    <div class="actions-header"></div>
+  </div>
+  
+  @for (todo of todos; track todo.id) {
+    <div class="todo-grid-row">
+      <div class="completed-cell">
+        <mat-checkbox
+          [checked]="todo.completed"
+          (change)="onToggleComplete.emit(todo.id)"
+        ></mat-checkbox>
+      </div>
+      <div class="title-cell" [class.completed]="todo.completed">
+        {{ todo.title }}
+      </div>
+      <div class="created-cell" data-label="Created:">
+        {{ todo.createdAt | date : "MMM d, y" }}
+      </div>
+      <div class="expiration-cell" data-label="Expiration:">
+        @if (showTimeLeft) {
+          <app-time-left
+            [expirationDate]="todo.expirationDate"
+            [expirationTime]="todo.expirationTime"
+          />
+        } @else {
+          {{ todo.expirationDate | date : "MMM d, y" }} {{ todo.expirationTime }}
+        }
+      </div>
+      <div class="actions-cell">
+        <button mat-icon-button (click)="onToggleFavorite.emit(todo.id)">
+          <mat-icon [color]="todo.isFavorite ? 'accent' : ''">
+            {{ todo.isFavorite ? "favorite" : "favorite_border" }}
+          </mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="onRemove.emit(todo.id)">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  }
+</div>

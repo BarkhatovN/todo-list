@@ -1,0 +1,55 @@
+<div class="add-todo-container">
+  <div class="header">
+    <button mat-icon-button (click)="onBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h2>Add TODO</h2>
+  </div>
+
+  <form [formGroup]="todoForm" (ngSubmit)="onSubmit()" class="todo-form">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Title</mat-label>
+      <input 
+        matInput 
+        maxlength="100"
+        formControlName="title"
+        [errorStateMatcher]="errorStateMatcher"
+      >
+      <mat-error *ngIf="title?.errors?.['required']">Title is required</mat-error>
+      <mat-error *ngIf="title?.errors?.['maxlength']">Title must be less than 100 characters</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Expiration date</mat-label>
+      <input 
+        matInput 
+        [matDatepicker]="picker"
+        formControlName="expirationDate"
+        [errorStateMatcher]="errorStateMatcher"
+      >
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="expirationDate?.errors?.['required']">Date is required</mat-error>
+      <mat-error *ngIf="expirationDate?.errors?.['pastDate']">Date cannot be in the past</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Expiration time</mat-label>
+      <input 
+        matInput
+        [ngxTimepicker]="timepicker"
+        formControlName="expirationTime"
+        [errorStateMatcher]="errorStateMatcher"
+        readonly
+      >
+      <mat-icon matSuffix (click)="timepicker.open()">schedule</mat-icon>
+      <ngx-material-timepicker #timepicker></ngx-material-timepicker>
+      <mat-error *ngIf="expirationTime?.errors?.['pastTime']">Time cannot be in the past for today's date</mat-error>
+      <mat-error *ngIf="todoForm.errors?.['requireTime']">Time is required for today's date</mat-error>
+    </mat-form-field>
+
+    <div class="form-actions">
+      <button mat-raised-button color="primary" type="submit">Create</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,26 @@
+.nav-links {
+  margin-left: 32px;
+  display: flex;
+  gap: 8px;
+
+  a.active {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  mat-icon {
+    margin-right: 8px;
+  }
+}
+
+.drawer-container {
+  width: 100%;
+  height: calc(100vh - 56px);
+}
+
+.drawer {
+  width: 250px;
+}
+
+::ng-deep .mat-drawer-content {
+  height: auto !important;
+}
