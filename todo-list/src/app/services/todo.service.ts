@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, tap } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { Todo } from '../interfaces/todo.interface';
 import { StorageService } from './storage.service';
 
@@ -71,9 +71,8 @@ export class TodoService {
     };
 
     const updatedTodos = [...this.todos$.value, newTodo];
-    return this.storageService.setTodos(updatedTodos).pipe(
-      tap(() => this.todos$.next(updatedTodos))
-    );
+    this.todos$.next(updatedTodos);
+    return this.storageService.setTodos(updatedTodos);
   }
 
   toggleFavorite(id: string): Observable<void> {
@@ -81,24 +80,23 @@ export class TodoService {
       todo.id === id ? { ...todo, isFavorite: !todo.isFavorite } : todo
     );
     
-    return this.storageService.setTodos(updatedTodos).pipe(
-      tap(() => this.todos$.next(updatedTodos))
-    );
+    this.todos$.next(updatedTodos);
+    return this.storageService.setTodos(updatedTodos);
   }
 
   toggleComplete(id: string): Observable<void> {
     const updatedTodos = this.todos$.value.map(todo =>
       todo.id === id ? { ...todo, completed: !todo.completed } : todo
     );
-    return this.storageService.setTodos(updatedTodos).pipe(
-      tap(() => this.todos$.next(updatedTodos))
-    );
+    
+    this.todos$.next(updatedTodos);
+    return this.storageService.setTodos(updatedTodos);
   }
 
   removeTodo(id: string): Observable<void> {
     const updatedTodos = this.todos$.value.filter(todo => todo.id !== id);
-    return this.storageService.setTodos(updatedTodos).pipe(
-      tap(() => this.todos$.next(updatedTodos))
-    );
+    
+    this.todos$.next(updatedTodos);
+    return this.storageService.setTodos(updatedTodos);
   }
 }
