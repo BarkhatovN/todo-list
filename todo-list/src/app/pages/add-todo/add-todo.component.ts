@@ -11,6 +11,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { Router } from '@angular/router';
 import { TodoService } from '../../services/todo.service';
 import { CustomErrorStateMatcher } from '../../utils/custom-error-matcher';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-add-todo',
@@ -36,6 +37,7 @@ export class AddTodoComponent {
     expirationTime: ['', [this.futureTimeValidator()]]
   }, { validators: this.dateTimeValidator() });
   submitted = false;
+  isSubmitting = false;
   errorStateMatcher = new CustomErrorStateMatcher(this.submitted);
 
   constructor(
@@ -126,6 +128,7 @@ export class AddTodoComponent {
   onSubmit() {
     this.submitted = true;
     if (this.todoForm.valid) {
+      this.isSubmitting = true;
       const formValues = this.todoForm.value;
       const expirationTime = formValues.expirationTime ? this.convertTo24Hour(formValues.expirationTime) : '';
       const todoData = {
@@ -134,9 +137,13 @@ export class AddTodoComponent {
         expirationTime: expirationTime ? `${expirationTime.hours}:${expirationTime.minutes}` : ''
       };
 
-      this.todoService.addTodo(todoData).subscribe(() => {
-        this.router.navigate(['/list']);
-      });
+      this.todoService.addTodo(todoData).pipe(
+        finalize(() => {
+          this.isSubmitting = false;
+        })
+      ).subscribe(
+        () => this.router.navigate(['/list'])
+      );
     }
   }
 
